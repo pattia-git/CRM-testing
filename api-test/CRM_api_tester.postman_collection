@@ -1,0 +1,915 @@
+{
+	"info": {
+		"_postman_id": "bf53ab42-41de-44e9-867d-3eb4a6115b93",
+		"name": "CRM -api tester",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41001813"
+	},
+	"item": [
+		{
+			"name": "Base requests",
+			"item": [
+				{
+					"name": "Get all companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"You can see all companies, status code 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check this please\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an('array');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/companies",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response to have is 200 OK!\", function (){\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"Test@email.com\",\r\n    \"Password\": \"test\",\r\n    \"Username\": \"test\",\r\n    \"Company\": \"testCompany\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/users/admin",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"users",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test -Endpoint",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "User Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"You're now logged in! The response you got was 200 OK\", function () {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"no@email.com\",\r\n    \"Password\": \"abc123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "See all employees",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Forbidden to access all employees as an employee...\", function(){\r",
+											"    pm.response.to.have.status(403)\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/users/bycompany",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"users",
+										"bycompany"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "See all issues",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Trying to fetch all issues...\", function() {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/issues",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"issues"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "See specific issue",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Trying to fetch specific issue...\", function(){\r",
+											"    pm.response.to.have.status(200)\r",
+											"\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/issues/{{issueid}}",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"issues",
+										"{{issueid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a issue state",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Trying to update status of an issue...\", function() {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"NewState\": \"OPEN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/issues/{{issueid}}/state",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"issues",
+										"{{issueid}}",
+										"state"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get messages on an issue",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Trying to get messages...\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/issues/{{issueid}}/messages",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"issues",
+										"{{issueid}}",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send a message on an issue",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Trying to send a new message...\", function () {\r",
+											"    pm.response.to.have.status(200)\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Message\": \"new message\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/issues/{{issueid}}/messages",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"issues",
+										"{{issueid}}",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"You are now logged out, code: 200 OK\", function() {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Login with wrong credentials",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Entering wrong credentials...\", function (){\r",
+											"    pm.response.to.have.status(404)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"mdsasd@email.com\",\r\n    \"Password\": \"abc123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Admin Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"You're now logged in! The response you got was 200 OK\", function () {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"m@email.com\",\r\n    \"Password\": \"abc123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "See all Employees",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Checking all employees....\", function() {\r",
+											"    pm.response.to.have.status(200)\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/users/bycompany",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"users",
+										"bycompany"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "See all issues Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Trying to fetch all issues...\", function() {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/issues",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"issues"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create new subject",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Creating new subject...\", function () {\r",
+											"    pm.response.to.have.status(200)\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"subject\", \"Hejsan\");"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"{{subject}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/forms/subjects",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"forms",
+										"subjects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete subject",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Deleting subject..\", function (){\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/forms/subjects/{{subject}}",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"forms",
+										"subjects",
+										"{{subject}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New employee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Creating new employee...\", function () {\r",
+											"    pm.response.to.have.status(200)\r",
+											"    \r",
+											"    let jsonData = pm.response.json();\r",
+											"    pm.environment.set(\"userId\", jsonData.userId);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Firstname\": \"mgidjifsmdigkgkmkkkkgk kpgs\",\r\n    \"Lastname\": \"test\",\r\n    \"Email\": \",,mfmdkmfkdgkkkkgfldl@email.com\",\r\n    \"Role\": \"USER\",\r\n    \"Password\": \"testtest\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/users/create",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"users",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a USER",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Trying to update a user...\", function (){\r",
+											"    pm.response.to.have.status(200)\r",
+											"} )"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Firstname\": \"Test1\",\r\n    \"Lastname\": \"Test2\",\r\n    \"Email\": \"Test@email1.com\",\r\n    \"Role\": \"ADMIN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/users/{{userId}}",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete USER",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Trying to delete a user...\", function () {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/users/{{userId}}",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User logout Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"You are now logged out, code: 200 OK\", function() {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Logged in as guest",
+					"item": [
+						{
+							"name": "See specific company form",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"The response you got was 200 OK. You can see the form\", function(){\r",
+											"pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check the repsonse in the body\");"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/forms/{{companyname}}",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"forms",
+										"{{companyname}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create new issue",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Sending issue should be 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    let jsonData = pm.response.json();\r",
+											"    pm.environment.set(\"issueid\", jsonData.issuesId);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"guestEmail\", \"test@email.com\");"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"{{guestEmail}}\",\r\n    \"Title\": \"Test2\",\r\n    \"Subject\": \"Reklamation\",\r\n    \"Message\": \"hejhej\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/issues/create/{{companyname}}",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"issues",
+										"create",
+										"{{companyname}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"{{guestEmail}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/login/guest",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"login",
+										"guest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "See specific issue",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/issues/{{issueid}}",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"issues",
+										"{{issueid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
